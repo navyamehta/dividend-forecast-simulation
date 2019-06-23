@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<title>Dividend Dichotomy</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<script src="https://www.gstatic.com/firebasejs/6.2.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.2.2/firebase-database.js"></script>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.2/css/mdb.min.css" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.2/js/mdb.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+<style>
+    body,
+    h1,
+    h2 {
+        font-family: "Raleway", sans-serif
+    }
+
+    body,
+    html {
+        height: 100%
+    }
+
+    p {
+        line-height: 2
+    }
+
+    .bgimg,
+    .bgimg2 {
+        min-height: 100%;
+        background-position: center;
+        background-size: cover;
+    }
+
+    .bgimg {
+        background-image: url(bkg.png)
+    }
+</style>
+
+<body>
+
+    <!-- Header / Home-->
+    <header class="w3-display-container w3-wide bgimg w3-grayscale-min" id="home">
+        <div class="w3-display-middle w3-text-white w3-center">
+            <h1 class="w3-jumbo"><b>Dividend Dichotomy</b></h1>
+            <h2>Investment solutions for the long haul!</h2>
+        </div>
+    </header>
+
+    <!-- Navbar (sticky bottom) -->
+    <div class="w3-bottom w3-hide-small">
+        <div class="w3-bar w3-white w3-center w3-padding w3-opacity-min w3-hover-opacity-off">
+            <a href="#home" style="width:25%" class="w3-bar-item w3-button">Home</a>
+            <a href="#about" style="width:25%" class="w3-bar-item w3-button">About</a>
+            <a href="#calculator" style="width:25%" class="w3-bar-item w3-button">How it works</a>
+            <a href="#contact" style="width:25%" class="w3-bar-item w3-button w3-hover-black">Contact</a>
+        </div>
+    </div>
+
+    <!-- About / Dividend Dichotomy -->
+    <div class="w3-container w3-padding-64 w3-pale-mauve w3-grayscale-min" id="about">
+        <div class="w3-content">
+            <h1 class="w3-center w3-text-grey"><b>Our Inspiration</b></h1>
+            <img class="w3-round w3-grayscale-min" src=inspiration.jpg style="width:100%;margin:32px 0">
+            <p><i>
+                    The previous problem with financial decision making was lack of information; with the advent of the
+                    internet, we faced with other problems now whereby there is so much information that we can't factor
+                    it all in our decision making, i.e. we suffer from <b>bounded rationality</b>.
+                    Additionally, having to rely on other consulting companies limits our <b>agency</b> to make these
+                    decisions ourselves. Lastly, going the long-short selling way often renders our investments a zero
+                    sum game and the need to have a <b>long term</b> money-making strategy was never so pertinent. </i>
+            </p>
+
+            <p>That is why we have created this tool. Having trained our machine model on data from SNP500 companies to
+                find out what factors contribute to long term dividend maximization, we make it easier for you to assess
+                how you can make the best investments to maximize your gain.
+
+            </p><br>
+            <p class="w3-center"><a href="#calculator" class="w3-button w3-black w3-round w3-padding-large w3-large">Try
+                    it now!</a></p>
+        </div>
+    </div>
+
+
+    <!-- How it works -->
+    <div class="w3-container w3-padding-64 w3-pale-blue w3-grayscale-min w3-center" id="calculator">
+        <div class="w3-content">
+            <h1 class="w3-text-grey"><b>Forecaster</b></h1>
+
+            <h3>Please enter your predicted info for the two companies you want to compare</h3>
+            <table>
+                <tr>
+                    <td><b>Company 1: </b></td>
+                    <td><input type="text" placeholder="e.g. AAPL" id="company1Field"></td>
+                    <td><b>Company 2: </b></td>
+                    <td><input type="text" placeholder="e.g. TSLA" id="company2Field"></td>
+                </tr>
+                <tr>
+                    <td>Annual income growth rate: </td>
+                    <td><input type="text" id="Data1v1" placeholder="e.g. 5" /></td>
+                    <td>Annual income growth rate: </td>
+                    <td><input type="text" id="Data2v1" placeholder="e.g. 2" /></td>
+                </tr>
+                <tr>
+                    <td>Revenue growth rate: </td>
+                    <td><input type="text" id="Data1v2" placeholder="e.g. 6" /></td>
+                    <td>Revenue growth rate: </td>
+                    <td><input type="text" id="Data2v2" placeholder="e.g. 9" /></td>
+                </tr>
+                <tr>
+                    <td>Growth in assets: </td>
+                    <td><input type="text" id="Data1v3" placeholder="Growth in assets" /></td>
+                    <td>Growth in assets: </td>
+                    <td><input type="text" id="Data2v3" placeholder="Growth in assets" /></td>
+                </tr>
+                <tr>
+                    <td>Growth in liabilities: </td>
+                    <td><input type="text" id="Data1v4" placeholder="Growth in liabilities" /></td>
+                    <td>Growth in liabilities: </td>
+                    <td><input type="text" id="Data2v4" placeholder="Growth in liabilities" /></td>
+                </tr>
+                <tr>
+                    <td>Growth of capital expenditure: </td>
+                    <td><input type="text" id="Data1v5" placeholder="Growth of capital expenditure" /></td>
+                    <td>Growth of capital expenditure: </td>
+                    <td><input type="text" id="Data2v5" placeholder="Growth of capital expenditure" /></td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <button onclick="writeData()">Submit</button>
+                        <a href="/forward/">
+                            <button name="forwardBtn" type="submit" id="script-button">Forward</button>
+                        </a>
+
+                    </td>
+                </tr>
+            </table>
+
+
+
+
+
+            <script>
+                // Your web app's Firebase configuration
+                var firebaseConfig = {
+                    apiKey: "AIzaSyC8g3freJ1CQ-kLHXS_DN7QenO6E1-A8y8",
+                    authDomain: "test-6db14.firebaseapp.com",
+                    databaseURL: "https://test-6db14.firebaseio.com",
+                    projectId: "test-6db14",
+                    storageBucket: "test-6db14.appspot.com",
+                    messagingSenderId: "87963031977",
+                    appId: "1:87963031977:web:6795566645b531a0"
+                };
+                // Initialize Firebase
+                firebase.initializeApp(firebaseConfig);
+
+                function writeData() {
+                    //create object to store data
+                    firebase.database().ref("Company").set({
+                        Company1: document.getElementById("company1Field").value,
+                        Company2: document.getElementById("company2Field").value
+                    });
+
+                    firebase.database().ref("/Company/Company1").set({
+                        Name: document.getElementById("company1Field").value,
+                        Data1v1: document.getElementById("Data1v1").value,
+                        Data1v2: document.getElementById("Data1v2").value,
+                        Data1v3: document.getElementById("Data1v3").value,
+                        Data1v4: document.getElementById("Data1v4").value,
+                        Data1v5: document.getElementById("Data1v5").value
+                    })
+
+                    firebase.database().ref("/Company/Company2").set({
+                        Name: document.getElementById("company2Field").value,
+                        Data2v1: document.getElementById("Data2v1").value,
+                        Data2v2: document.getElementById("Data2v2").value,
+                        Data2v3: document.getElementById("Data2v3").value,
+                        Data2v4: document.getElementById("Data2v4").value,
+                        Data2v5: document.getElementById("Data2v5").value
+                    })
+                }
+                var ref = firebase.database().ref('Company');
+                ref.on('value', gotData, errData);
+
+                function gotData(data) {
+                    console.log("00")
+                    console.log(data.val());
+                    console.log("11")
+                    var company1val = data.val();
+                }
+
+                function errData(data) {
+                    console.log("Error!");
+                    console.log(err);
+                }
+            // function runScript() {
+            //     var request = new XMLHttpRequest();
+            //     request.onreadystatechange = function () {
+            //         if (request.readyState === 4) {
+            //             if (request.status === 200) {
+            //                 alert('Successful .... ' + request.responseText);
+            //             } else {
+            //                 alert('Something went wrong, status was ' + request.status);
+            //             }
+            //         }
+            //     };
+            //     request.open('GET', 'http://localhost:3000/forward/', true);
+            //     request.send(null);
+            //     return false;
+            // };
+
+            // document.getElementById('script-button').onclick = runScript;
+            </script>
+            <!-- <p>{{CompanyName1}}</p>
+    <p>{{data1}}</p>
+    <p>{{CompanyName2}}</p>
+    <p>{{data2}}</p> -->
+
+            <div class="w3-container w3-padding-64 w3-pale-blue w3-grayscale-min w3-center" id="graph">
+                <div class="chart" style="position: relative; height:80vh; width:100vw">
+                    <canvas id="lineChart"></canvas>
+                </div>
+                <script>
+                    console.log('bootstrap is dumb')
+                    //line
+                    var ctxL = document.getElementById("lineChart").getContext('2d');
+                    var myLineChart = new Chart(ctxL, {
+                        type: 'line',
+                        data: {
+                            labels: ["Year 1", "Year 2", "Year 3", "Year 4", "Year 5", "Year 6", "Year 7", "Year 8", "Year 9", "Year 10"],
+                            datasets: [{
+                                label: "Company 1", //{{CompanyName1}}
+                                data: [3.864, 1.20, 2.1, 1.0, 3.1, 2.92, 4.0, 10, 2, 5], //{{data1}}
+                                backgroundColor: [
+                                    'rgba(105, 0, 132, .2)',
+                                ],
+                                borderColor: [
+                                    'rgba(200, 99, 132, .7)',
+                                ],
+                                borderWidth: 2
+                            },
+                            {
+                                label: "Company 2", ////{{CompanyName1}}
+                                data: [2.8, 4.8, 4.0, 1.9, 3.6, 2.7, 9.0, 2, 2, 1], ////{{data2}}
+                                backgroundColor: [
+                                    'rgba(0, 137, 132, .2)',
+                                ],
+                                borderColor: [
+                                    'rgba(0, 10, 130, .7)',
+                                ],
+                                borderWidth: 2
+                            }
+                            ]
+                        },
+                        options: {
+                            responsive: true
+                        }
+                    });
+
+                </script>
+            </div>
+        </div>
+
+        <!-- Contact section -->
+        <div class="w3-container w3-padding-64 w3-pale-yellow w3-center w3-wide" id="contact">
+            <h1>Check out our GitHub!</h1>
+            <p class="w3-large">Check this out to see what we have planned for the future of Dividend Dichotomy</p>
+            <p class="w3-xlarge">
+                <p class="w3-button w3-round w3-yellow w3-opacity w3-hover-opacity-off" style="padding:8px 60px">
+                    <a href=https://github.com/navyamehta/dividend-forecast-simulation </p> Source Code</a> </p> </p>
+                        </div> <!-- RSVP modal -->
+                        <!-- <div id="id01" class="w3-modal">
+        <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="padding:32px;max-width:600px">
+            <div class="w3-container w3-white w3-center">
+                <h1 class="w3-wide">CAN YOU COME?</h1>
+                <p>We really hope you can make it.</p>
+                <form>
+                    <input class="w3-input w3-border" type="text" placeholder="Name(s)" name="name">
+                </form>
+                <p><i>Sincerely, John & Jane</i></p>
+                <div class="w3-row">
+                    <div class="w3-half">
+                        <button onclick="document.getElementById('id01').style.display='none'" type="button"
+                            class="w3-button w3-block w3-green">Going</button>
+                    </div>
+                    <div class="w3-half">
+                        <button onclick="document.getElementById('id01').style.display='none'" type="button"
+                            class="w3-button w3-block w3-red">Can't come</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+                        <!-- Footer -->
+                        <footer class="w3-center w3-black w3-padding-16">
+                            <p>Made by Saquib, Navya and Akshay for EngHack 2019
+                    </a></p>
+                </footer>
+                <div class="w3-hide-small" style="margin-bottom:32px"> </div>
+
+</body>
+
+</html>
