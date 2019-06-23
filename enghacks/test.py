@@ -14,9 +14,9 @@ def move_forward():
     data = get_data()
     data1 = data[0]
     data2 = data[1]
-    companyName1 = [2]
-    companyName2 = [3]
-    return render_template('page2.html', data1=data1, data2=data2, companyName1=companyName1, companyName2=companyName2)
+    CompanyName1 = data[2]
+    CompanyName2 = data[3]
+    return render_template('page2.html', data1=data1, data2=data2, CompanyName1=CompanyName1, CompanyName2=CompanyName2)
 
 if __name__ == '__main__':
     app.run(host='localhost', port=3000)
