@@ -1,0 +1,56 @@
+<html>
+
+<head>
+</head>
+
+<body>
+    <script src="https://www.gstatic.com/firebasejs/6.2.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.2/firebase-database.js"></script>
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyC8g3freJ1CQ-kLHXS_DN7QenO6E1-A8y8",
+            authDomain: "test-6db14.firebaseapp.com",
+            databaseURL: "https://test-6db14.firebaseio.com",
+            projectId: "test-6db14",
+            storageBucket: "test-6db14.appspot.com",
+            messagingSenderId: "87963031977",
+            appId: "1:87963031977:web:6795566645b531a0"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        function writeData() {
+            //create object to store data
+            firebase.database().ref("Company").set({
+                Company1: document.getElementById("company1Field").value,
+                Company2: document.getElementById("company2Field").value
+            });
+
+
+        }
+        var ref = firebase.database().ref('Company');
+        ref.on('value', gotData, errData);
+
+        function gotData(data) {
+            console.log("00")
+            console.log(data.val());
+            console.log("11")
+            var company1val = data.val();
+            var keys = Object.keys(company1val);
+            console.log(company1val)
+
+        }
+
+        function errData(data) {
+            console.log("Error!");
+            console.log(err);
+        }
+    </script>
+    <h1>User database</h1>
+    <input type="text" placeholder="Company 1" id="company1Field">
+    <input type="text" placeholder="Company 2" id="company2Field">
+    <button onclick="writeData()">Submit</button>
+</body>
+
+</html>

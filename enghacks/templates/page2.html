@@ -1,0 +1,195 @@
+<html>
+
+<head>
+    <title>Firebase Realtime Database Web</title>
+    <script src="https://www.gstatic.com/firebasejs/6.2.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.2/firebase-database.js"></script>
+
+</head>
+
+<body>
+    <table>
+        <tr>
+            <td> Company 1: </td>
+            <td><input type="text" placeholder="Company 1" id="company1Field"></td>
+            <td>Company 2: </td>
+            <td><input type="text" placeholder="Company 2" id="company2Field"></td>
+        </tr>
+        <tr>
+            <td>Data 1: </td>
+            <td><input type="text" id="Data1v1" placeholder="Income growth rate" /></td>
+            <td>Data 2: </td>
+            <td><input type="text" id="Data2v1" placeholder="Income growth rate" /></td>
+        </tr>
+        <tr>
+            <td>Data 1: </td>
+            <td><input type="text" id="Data1v2" placeholder="Revenue growth rate" /></td>
+            <td>Data 2: </td>
+            <td><input type="text" id="Data2v2" placeholder="Revenue growth rate" /></td>
+        </tr>
+        <tr>
+            <td>Data 1: </td>
+            <td><input type="text" id="Data1v3" placeholder="Growth in assets" /></td>
+            <td>Data 2: </td>
+            <td><input type="text" id="Data2v3" placeholder="Growth in assets" /></td>
+        </tr>
+        <tr>
+            <td>Data 1: </td>
+            <td><input type="text" id="Data1v4" placeholder="Growth in liabilities" /></td>
+            <td>Data 2: </td>
+            <td><input type="text" id="Data2v4" placeholder="Growth in liabilities" /></td>
+        </tr>
+        <tr>
+            <td>Data 1: </td>
+            <td><input type="text" id="Data1v5" placeholder="Growth of capital expenditure" /></td>
+            <td>Data 2: </td>
+            <td><input type="text" id="Data2v5" placeholder="Growth of capital expenditure" /></td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+                <button onclick="writeData()" id="script-button">Submit</button>
+                <form action="/forward/" method="post">
+                    <button name="forwardBtn" type="submit">Forward</button>
+                </form>
+
+            </td>
+        </tr>
+    </table>
+
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyC8g3freJ1CQ-kLHXS_DN7QenO6E1-A8y8",
+            authDomain: "test-6db14.firebaseapp.com",
+            databaseURL: "https://test-6db14.firebaseio.com",
+            projectId: "test-6db14",
+            storageBucket: "test-6db14.appspot.com",
+            messagingSenderId: "87963031977",
+            appId: "1:87963031977:web:6795566645b531a0"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        function writeData() {
+            //create object to store data
+            firebase.database().ref("Company").set({
+                Company1: document.getElementById("company1Field").value,
+                Company2: document.getElementById("company2Field").value
+            });
+
+            firebase.database().ref("/Company/Company1").set({
+                Name: document.getElementById("company1Field").value,
+                Data1v1: document.getElementById("Data1v1").value,
+                Data1v2: document.getElementById("Data1v2").value,
+                Data1v3: document.getElementById("Data1v3").value,
+                Data1v4: document.getElementById("Data1v4").value,
+                Data1v5: document.getElementById("Data1v5").value
+            })
+
+            firebase.database().ref("/Company/Company2").set({
+                Name: document.getElementById("company2Field").value,
+                Data2v1: document.getElementById("Data2v1").value,
+                Data2v2: document.getElementById("Data2v2").value,
+                Data2v3: document.getElementById("Data2v3").value,
+                Data2v4: document.getElementById("Data2v4").value,
+                Data2v5: document.getElementById("Data2v5").value
+            })
+        }
+        var ref = firebase.database().ref('Company');
+        ref.on('value', gotData, errData);
+
+        function gotData(data) {
+            console.log("00")
+            console.log(data.val());
+            console.log("11")
+            var company1val = data.val();
+            var keys = Object.keys(company1val);
+            console.log(company1val)
+
+        }
+
+        function errData(data) {
+            console.log("Error!");
+            console.log(err);
+        }
+
+        function runScript() {
+            var request = new XMLHttpRequest();
+            request.onreadystatechange = function () {
+                if (request.readyState === 4) {
+                    if (request.status === 200) {
+                        alert('Successful .... ' + request.responseText);
+                    } else {
+                        alert('Something went wrong, status was ' + request.status);
+                    }
+                }
+            };
+            request.open('POST', 'test.py', true);
+            request.send(null);
+            return false;
+        };
+
+        document.getElementById('script-button').onclick = runScript;
+    </script>
+
+    <p>{{data1}}</p>
+    <p>{{data2}}</p>
+</body>
+
+</html>
+
+<!-- <script>
+    var firebaseConfig = {
+        apiKey: "AIzaSyC8g3freJ1CQ-kLHXS_DN7QenO6E1-A8y8",
+        authDomain: "test-6db14.firebaseapp.com",
+        databaseURL: "https://test-6db14.firebaseio.com",
+        projectId: "test-6db14",
+        storageBucket: "test-6db14.appspot.com",
+        messagingSenderId: "87963031977",
+        appId: "1:87963031977:web:6795566645b531a0"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    var tblCompanies = document.getElementById('tbl_company_list');
+    var databaseRef = firebase.database().ref('Companies/');
+    var rowIndex = 1;
+
+    databaseRef.once('value', function (snapshot) {
+        snapshot.forEach(function (childSnapshot) {
+            var childKey = childSnapshot.key;
+            var childData = childSnapshot.val();
+
+            var row = tblCompanies.insertRow(rowIndex);
+            var cellId = row.insertCell(0);
+            var cellCompany1 = row.insertCell(1);
+            var cellCompany2 = row.insertCell(2);
+            cellId.appendChild(document.createTextNode(childKey));
+            cellCompany1.appendChild(document.createTextNode(childData.company1));
+            cellCompany2.appendChild(document.createTextNode(childData.company2));
+            rowIndex = rowIndex + 1;
+        });
+    });
+
+    function save_user() {
+        var company1 = document.getElementById('company1').value;
+        var company2 = document.getElementById('company2').value;
+
+        var data = {
+            company1: company1,
+            company2: company2
+        }
+
+        var updates = {};
+        updates['/Companies/' + company1] = data;
+        firebase.database().ref().update(updates);
+
+        alert('The user is created successfully!');
+        reload_page();
+    }
+
+    function reload_page() {
+        window.location.reload();
+    }
+
+</script> -->
