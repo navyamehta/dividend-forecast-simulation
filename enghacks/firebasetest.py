@@ -8,25 +8,26 @@ def get_data():
     FBConn = firebase.FirebaseApplication('https://test-6db14.firebaseio.com/', None)
     companyName1 = FBConn.get('/Company/Company1/', 'Name')
     companyName2 = FBConn.get('/Company/Company2/', 'Name')
-    grrev1 = FBConn.get('/Company/Company1/', 'Data1v1')
-    grric1 = FBConn.get('/Company/Company1/', 'Data1v2')
-    grrasset1 = FBConn.get('/Company/Company1/', 'Data1v3')
-    grrliab1 = FBConn.get('/Company/Company1/', 'Data1v4')
-    grrentv1 = FBConn.get('/Company/Company1/', 'Data1v5')
+    grrev1 = float(FBConn.get('/Company/Company1/', 'Data1v1'))
+    grric1 = float(FBConn.get('/Company/Company1/', 'Data1v2'))
+    grrasset1 = float(FBConn.get('/Company/Company1/', 'Data1v3'))
+    grrliab1 = float(FBConn.get('/Company/Company1/', 'Data1v4'))
+    grrentv1 = float(FBConn.get('/Company/Company1/', 'Data1v5'))
 
-    grrev2 = FBConn.get('/Company/Company2/', 'Data2v1')
-    grric2 = FBConn.get('/Company/Company2/', 'Data2v2')
-    grrasset2 = FBConn.get('/Company/Company2/', 'Data2v3')
-    grrliab2 = FBConn.get('/Company/Company2/', 'Data2v4')
-    grrentv2 = FBConn.get('/Company/Company2/', 'Data2v5')
+    grrev2 = float(FBConn.get('/Company/Company2/', 'Data2v1'))
+    grric2 = float(FBConn.get('/Company/Company2/', 'Data2v2'))
+    grrasset2 = float(FBConn.get('/Company/Company2/', 'Data2v3'))
+    grrliab2 = float(FBConn.get('/Company/Company2/', 'Data2v4'))
+    grrentv2 = float(FBConn.get('/Company/Company2/', 'Data2v5'))
 
     result2 = FBConn.get('/Company/CompanyData2', None)
     ls1 = simulate(companyName1, grrev1, grric1, grrasset1, grrliab1, grrentv1)
     ls2 = simulate(companyName2, grrev2, grric2, grrasset2, grrliab2, grrentv2)
     print(ls1)
     print(ls2)
-    ls = [ls1, ls2]
+    ls = [ls1, ls2, companyName1, companyName2]
     final_result(ls)
+    return ls
 
 def final_result(result_list):
     # Create the connection to our Firebase database - don't forget to change the URL!
